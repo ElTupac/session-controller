@@ -11,7 +11,7 @@ const client = redis.createClient({
     port: 19405,
     password: "xDKSqMrQ0VdXFwAiOE1kOEZoSTf0xnNy"
 });
-client.on(error, err => {
+client.on("error", err => {
     console.log(error, err);
 });
 
