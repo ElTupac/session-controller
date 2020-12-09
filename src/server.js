@@ -11,8 +11,8 @@ const client = redis.createClient({
     port: 19405,
     password: "xDKSqMrQ0VdXFwAiOE1kOEZoSTf0xnNy"
 });
-client.on('error', err => {
-    console.log('Error', err);
+client.on(error, err => {
+    console.log(error, err);
 });
 
 const app = express();
@@ -36,9 +36,9 @@ async function newSession(req, res){
     if(apiKey == keysAllowed){
         const token = jwt.tokenGeneration();
         client.setex(username, 1800, token);
-        return res.json({'ok': true, 'token': token});
+        return res.json({ok: true, token: token});
     }else{
-        return res.json({'ok': false, 'error': 'invalid-key'});
+        return res.json({ok: false, error: 'invalid-key'});
     }
 }
 
@@ -51,17 +51,17 @@ async function refreshSession(req, res){
                 if(!err && data !== null){
                     const token = jwt.tokenGeneration();
                     client.setex(username, 1800, token);
-                    return res.json({'ok': true, 'token': token});
+                    return res.json({ok: true, token: token});
                 }else if(err){
                     return res.status(500);
                 }else{
-                    return res.json({'ok': false, 'error': 'invalid-username'});
+                    return res.json({ok: false, error: 'invalid-username'});
                 }
             })
         }else{
-            return res.json({'ok': false, 'error': 'bad-token'});
+            return res.json({ok: false, error: 'bad-token'});
         }
     }else{
-        return res.json({'ok': false, 'error': 'no-creds'});
+        return res.json({ok: false, error: 'no-creds'});
     }
 }
